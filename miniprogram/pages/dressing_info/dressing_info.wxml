@@ -1,0 +1,10 @@
+    <scroll-view scroll-y bindscrolltolower="lower">
+    
+    <view class='item_row'>
+        <view wx:for="{{info.images}}" class='item' bindtap='previewImage'  wx:key=''>
+           
+          <image class='item_img' src='{{item}}' mode="scaleToFill"></image>
+
+        </view>
+      </view>
+      </scroll-view>

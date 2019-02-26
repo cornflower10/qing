@@ -1,0 +1,32 @@
+/**app.wxss**/
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+} 
+
+.item_row{
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+   flex-wrap: wrap;
+      padding: 16rpx 16rpx 16rpx 16rpx;
+}
+
+.item_img{
+ width:343rpx;
+height:407rpx;
+}
+.red_color{
+  color: #AC4049;
+}
+
+
+.font_28{
+ font-size: 28rpx;
+}
+.font_30{
+ font-size: 30rpx;
+}

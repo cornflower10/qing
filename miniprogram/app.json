@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/main/main",
+    "pages/index/index",
+    "pages/userConsole/userConsole",
+    "pages/storageConsole/storageConsole",
+    "pages/databaseGuide/databaseGuide",
+    "pages/addFunction/addFunction",
+    "pages/deployFunctions/deployFunctions",
+    "pages/chooseLib/chooseLib",
+    "pages/dressing_info/dressing_info",
+    "pages/upload_image/upload_image",
+    "pages/manage_dressing_image/manage_dressing_image"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "Qing",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "selectedColor": "#AC4049",
+    "list": [
+      {
+        "pagePath": "pages/main/main",
+        "text": "首页",
+        "iconPath": "images/icon_main.png",
+        "selectedIconPath": "images/selected-icon_main.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "关于",
+        "iconPath": "images/icon_my.png",
+        "selectedIconPath": "images/selected-icon_my.png"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+/* miniprogram/pages/main/main.wxss */
+.item_row{
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+   flex-wrap: wrap;
+      padding: 16rpx 16rpx 16rpx 16rpx;
+}
+
+.item_img{
+ width:343rpx;
+height:407rpx;
+}

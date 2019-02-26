@@ -1,0 +1,13 @@
+    <scroll-view scroll-y bindscrolltolower="lower">
+    <view class='top font_30'>
+    <view  class='' bindtap='cancel'>取消</view>
+     <view class='red_color' bindtap='upload'>上传</view>
+    </view>
+    <view class='item_row_'>
+        <view wx:for="{{temp_images}}" class='item' bindtap='previewImage'  wx:key=''>
+           
+          <image class='item_img_' src='{{item}}' mode="aspectFill"></image>
+
+        </view>
+      </view>
+      </scroll-view>

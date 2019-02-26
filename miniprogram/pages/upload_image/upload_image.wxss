@@ -1,0 +1,20 @@
+/* miniprogram/pages/upload_image/upload_image.wxss */
+.top{
+  margin: 16rpx 16rpx 16rpx 16rpx;
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between
+}
+.item_row_{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 16rpx 16rpx 16rpx 16rpx;
+  flex-wrap: wrap
+}
+.item_img_{
+margin-left: 10rpx;
+width:216rpx;
+height:216rpx;
+
+}
