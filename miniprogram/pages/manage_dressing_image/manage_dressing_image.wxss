@@ -3,13 +3,14 @@
   align-items: center;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: start;
    flex-wrap: wrap;
-      padding: 5rpx 5rpx 5rpx 5rpx;
+  padding: 5rpx 5rpx 0rpx 5rpx;
 }
 
 .item_img{
- width:180rpx;
+margin-left: 5rpx;
+width:180rpx;
 height:180rpx;
 }
 .top{
@@ -17,4 +18,17 @@ height:180rpx;
   flex-direction: row;
   display: flex;
   justify-content: space-between
+}
+.bottom{
+  position: fixed;
+  bottom: 0rpx;
+  right: 16rpx
+}
+.choose{
+  position: relative;
+  width: 32rpx;
+  height: 32rpx;
+  bottom:68rpx;
+  right:-138rpx;
+  z-index: 999
 }

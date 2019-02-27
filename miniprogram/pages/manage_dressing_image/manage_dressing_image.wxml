@@ -1,20 +1,22 @@
     <view class='top font_30'>
-    <view  class='' bindtap='cancel'>取消</view>
-     <view class='red_color' bindtap='choose'>选择</view>
+    <view  class='' bindtap='cancel' >{{!isShow?'取消':''}}</view>
+     <view class='red_color' bindtap='choose'>{{choosed}}</view>
     </view>
     
     <scroll-view scroll-y bindscrolltolower="lower">
     
     <view class='item_row'>
-        <view wx:for="{{list}}" class='item' bindtap='clickItem' data-url='{{item.url}}' wx:key=''>
+        <view wx:for="{{list}}" class='item' bindtap='clickItem' data-url='{{item.url}}' wx:key='' data-id='{{index}}'>
            
+           <view class='item_img'>
           <image class='item_img' src='{{item.url}}' mode="scaleToFill"></image>
-
+           <image class='choose' src='../../images/choose.png' hidden='{{item.hidden}}'></image>
+           </view>
         </view>
       </view>
       </scroll-view>
-  <view class='top font_30'>
+  <view class='top font_30 bottom' hidden='{{!isShow}}'>
   
-  <view class='' bindtap=''>      </view>
+     <view class='' bindtap=''>      </view>
      <view class='red_color' bindtap='delete'>删除</view>
     </view>

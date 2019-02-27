@@ -9,6 +9,6 @@
 }
 
 .item_img{
- width:343rpx;
+ width:350rpx;
 height:407rpx;
 }
