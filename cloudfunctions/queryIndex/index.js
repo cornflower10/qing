@@ -12,7 +12,7 @@ cloud.init()
  * event 参数包含小程序端调用传入的 data
  * 
  */
-exports.main = (event, context) => {
+exports.main = async(event, context) => {
   console.log(event)
   console.log(context)
 
@@ -29,31 +29,16 @@ exports.main = (event, context) => {
   //   unionid: wxContext.UNIONID,
   // }
 
-  const db = wx.cloud.database({
+  const db = cloud.database({
     env: 'bill-cde1db'
   })
-  db.collection('dressing_photo').get({
-    success(res) {
-      // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
-      console.log(res.data)
-    return res
-    }
-  })
-
-
-
-  db.collection('dressing_photo').add({
-    // data 字段表示需新增的 JSON 数据
-    data: {
-      url: event.url,
-      tag: event.tag,
-      title: event.title,
-      desc: event.desc
-    },
-    success(res) {
-      // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
-      console.log(res)
-       return res
-    }
-  })
+ const res = await db.collection('dressing_photo').orderBy("create_time",'desc').get({
+//     success(res) {
+//       // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
+//       console.log(res)
+//       return res
+//     }
+  }
+)
+return res
 }

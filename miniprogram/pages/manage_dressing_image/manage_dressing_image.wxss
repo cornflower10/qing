@@ -1,1 +1,20 @@
-/* miniprogram/pages/manage_dressing_image/manage_dressing_image.wxss */
+
+.item_row{
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+   flex-wrap: wrap;
+      padding: 5rpx 5rpx 5rpx 5rpx;
+}
+
+.item_img{
+ width:180rpx;
+height:180rpx;
+}
+.top{
+  margin: 16rpx 16rpx 16rpx 16rpx;
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between
+}
