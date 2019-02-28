@@ -5,12 +5,14 @@ Page({
    * 页面的初始数据
    */
   data: {
+    pageIndex: 1,
     list:[{
       dressing_id:"1",
       url:"cloud://bill-cde1db.6269-bill-cde1db/my-image.jpeg",
       tag:"",
       title:"",
-      desc:""
+      desc:"",
+     
     },
       {
         dressing_id: "2",
@@ -51,7 +53,10 @@ Page({
    this.query()
   },
 
-query:function(){
+query:function(add){
+  var that = this;
+  var pageIndex = that.data.pageIndex
+  console.log("--------"+pageIndex)
     // 调用云函数
   wx.showLoading({
     icon: 'none',
@@ -59,12 +64,21 @@ query:function(){
   })
     wx.cloud.callFunction({
       name: 'queryIndex',
-      data: {},
+      data: { pageIndex: pageIndex },
       success: res => {
         console.log('[云函数] result: ', res.result.data)
-        this.setData({
-          list: res.result.data
-        })
+        if (add){
+          console.log('加载更多'+pageIndex)
+          var listTemp = that.data.list
+          this.setData({
+            list: listTemp.concat(res.result.data)
+          })
+        }else{
+          this.setData({
+            list: res.result.data
+          })
+        }
+      
         var temp = this.data.list
         if (temp!=undefined&&temp.length!=0){
           var tempReal = []
@@ -87,6 +101,8 @@ query:function(){
         })
         wx.hideLoading()
         wx.stopPullDownRefresh()
+        pageIndex--
+        that.setData({ pageIndex:pageIndex})
       }
     })
 },
@@ -138,7 +154,10 @@ query:function(){
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    var pageIndex = this.data.pageIndex
+    pageIndex++
+    this.setData({ pageIndex: pageIndex })
+    this.query(true);
   },
 
   /**

@@ -28,11 +28,14 @@ exports.main = async(event, context) => {
   //   appid: wxContext.APPID,
   //   unionid: wxContext.UNIONID,
   // }
-
+  var pageIndex = event.pageIndex;
+   var pageSize = 10;
+  var skip = (pageIndex - 1) * pageSize
+  console.log(skip)
   const db = cloud.database({
     env: 'bill-cde1db'
   })
- const res = await db.collection('dressing_photo').orderBy("create_time",'desc').get({
+  const res = await db.collection('dressing_photo').skip(skip).limit(pageSize).orderBy("create_time",'desc').get({
 //     success(res) {
 //       // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
 //       console.log(res)
