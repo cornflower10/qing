@@ -55,6 +55,11 @@ Page({
 
 query:function(add){
   var that = this;
+  if(!add){
+    that.setData({
+      pageIndex:1
+    })
+  }
   var pageIndex = that.data.pageIndex
   console.log("--------"+pageIndex)
     // 调用云函数

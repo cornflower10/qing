@@ -29,9 +29,8 @@ exports.main = async(event, context) => {
   //   unionid: wxContext.UNIONID,
   // }
   var pageIndex = event.pageIndex;
-   var pageSize = 10;
+   var pageSize = 20;
   var skip = (pageIndex - 1) * pageSize
-  console.log(skip)
   const db = cloud.database({
     env: 'bill-cde1db'
   })

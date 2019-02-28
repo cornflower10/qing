@@ -10,7 +10,8 @@ Page({
     isShow: false,
     choosed: '选择',
     id: [],
-    deleteCount:0
+    deleteCount:0,
+    pageIndex:1,
 
   },
 
@@ -23,13 +24,14 @@ Page({
 
   query: function() {
     // 调用云函数
+    var pageIndex = this.data.pageIndex
     wx.showLoading({
       icon: 'none',
       title: '加载中',
     })
     wx.cloud.callFunction({
-      name: 'queryIndex',
-      data: {},
+      name: 'mange_photo',
+      data: { pageIndex: pageIndex},
       success: res => {
         console.log('[云函数] result: ', res.result.data)
         // this.setData({
