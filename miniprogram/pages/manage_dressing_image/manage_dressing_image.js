@@ -5,22 +5,23 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list:[],
-    reallList:[],
-    isShow:false,
+    list: [],
+    reallList: [],
+    isShow: false,
     choosed: '选择',
-    id:[]
+    id: [],
+    deleteCount:0
 
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-     this.query()
+  onLoad: function(options) {
+    this.query()
   },
 
-  query: function () {
+  query: function() {
     // 调用云函数
     wx.showLoading({
       icon: 'none',
@@ -39,7 +40,7 @@ Page({
           var tempReal = []
           for (var i = 0; i < temp.length; i++) {
             tempReal[i] = temp[i].url
-            temp[i].hidden=true
+            temp[i].hidden = true
           }
           this.setData({
             reallList: tempReal,
@@ -62,56 +63,73 @@ Page({
     })
   },
 
-  choose:function(){
-  if(this.data.isShow){
-    this.setData({
-      isShow:false,
-      choosed:'选择'
-    })
-  }else{
-    this.setData({ isShow: true, choosed: '取消'})
-  }
+  choose: function() {
+    if (this.data.isShow) {
+      this.setData({
+        isShow: false,
+        choosed: '选择'
+      })
+    } else {
+      this.setData({
+        isShow: true,
+        choosed: '取消'
+      })
+    }
+    this.resetData()
   },
 
-  clickItem:function(e){
-    if (this.data.isShow){
-      var index = e.currentTarget.dataset.id
-  
+  clickItem: function(e) {
+    var index = e.currentTarget.dataset.id
+    if (this.data.isShow) {
       var hidden = this.data.list[index].hidden
       var temps = this.data.list;
       var tempIds = this.data.id
-      if (hidden){
-        temps[index].hidden=false
-        tempIds[index] = this.data.list[index]._id 
+      if (hidden) {
+        temps[index].hidden = false
+        tempIds.push(this.data.list[index]._id) 
         console.log("index:" + index)
-     
-      }else{
+
+      } else {
         temps[index].hidden = true
-         tempIds.splice(index,1)
-       
+        tempIds.splice(index, 1)
+
       }
       this.setData({
         list: temps,
         id: tempIds
       })
-    }else{
-      var temp = this.data.list
-      if (temp != undefined && temp.length != 0) {
-        var tempReal = []
-        for (var i = 0; i < temp.length; i++) {
-          tempReal[i] = temp[i].url
-          temp[i].hidden = true
-        }
-        this.setData({
-          id:[],
-          list: temp
-        })
-      }
+    } else {
+      this.resetData()
+      var url = this.data.list[index].url
+      wx.previewImage({
+        urls: this.data.reallList,
+        current: url
+      })
     }
-  
+
   },
-  delete: function () {
+
+  resetData: function() {
+    var temp = this.data.list
+    if (temp != undefined && temp.length != 0) {
+      for (var i = 0; i < temp.length; i++) {
+        temp[i].hidden = true
+      }
+      this.setData({
+        id: [],
+        list: temp
+      })
+    }
+  },
+  delete: function() {
     // 调用云函数
+    var that = this;
+    console.log(that.data.id.length)
+    if (that.data.id.length==0){
+      return
+    }
+    var deleteId = that.data.id[that.data.deleteCount]
+    console.log("delete参数"+deleteId)
     wx.showLoading({
       icon: 'none',
       title: '加载中',
@@ -119,7 +137,7 @@ Page({
     wx.cloud.callFunction({
       name: 'deletePhoto',
       data: {
-        id: this.data.id[0]
+        id: deleteId
       },
       success: res => {
         console.log('[云函数] result: ', res)
@@ -136,8 +154,15 @@ Page({
         //     reallList: tempReal
         //   })
         // }
-
-        wx.hideLoading()
+        var count = that.data.deleteCount
+        count++
+        that.setData({deleteCount:count})
+        if (count<this.data.id.length){
+           that.delete()
+        }else{
+          wx.hideLoading()
+          that.query()
+        }
         // wx.stopPullDownRefresh()
       },
       fail: err => {
@@ -152,7 +177,7 @@ Page({
     })
   },
 
-  cancel: function () {
+  cancel: function() {
     //返回上一级关闭当前页面
     wx.navigateBack({
       delta: 1
@@ -163,49 +188,49 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })

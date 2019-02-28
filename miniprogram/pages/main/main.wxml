@@ -3,7 +3,7 @@
     <view class='item_row'>
         <view wx:for="{{list}}" class='item' bindtap='clickItem' data-url='{{item.url}}' wx:key=''>
            
-          <image class='item_img' src='{{item.url}}' mode="scaleToFill"></image>
+          <image class='item_img' src='{{item.url}}' mode="aspectFill"></image>
 
         </view>
       </view>

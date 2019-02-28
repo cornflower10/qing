@@ -10,24 +10,26 @@
       style="background-image: url({{avatarUrl}})"
     ></button>
     <view>
-      <button class="userinfo-nickname" bindtap="onGetOpenid">点击获取 openid</button>
+      <button class="userinfo-nickname" bindtap="">{{userInfo.nickName}}</button>
     </view>
   </view>
 
 
   <!-- 上传图片 -->
-  <view class="uploader">
+  <view class="uploader_0" hidden='{{isAdmin}}'>
     <view class="uploader-text" bindtap="doUpload">
       <text>上传图片</text>
+      <image class='img' src='../../images/right.png'></image>
     </view>
     <view class="uploader-container" wx:if="{{imgUrl}}">
       <image class="uploader-image" src="{{imgUrl}}" mode="aspectFit" bindtap="previewImg"></image>
     </view>
   </view>
-
-  <view class="uploader">
+ <view class='line'></view>
+  <view class="uploader_"  hidden='{{isAdmin}}'>
     <navigator url="../manage_dressing_image/manage_dressing_image" open-type="navigate" class="uploader-text">
       <text>图片管理</text>
+      <image class='img' src='../../images/right.png'></image>
     </navigator>
   </view>
   <!-- 操作数据库 -->

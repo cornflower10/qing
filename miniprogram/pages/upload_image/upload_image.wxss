@@ -14,7 +14,7 @@
 }
 .item_img_{
 margin-left: 10rpx;
-width:216rpx;
-height:216rpx;
+width:227rpx;
+height:227rpx;
 
 }

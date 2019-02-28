@@ -7,10 +7,12 @@ Page({
     userInfo: {},
     logged: false,
     takeSession: false,
-    requestResult: ''
+    requestResult: '',
+    isAdmin:false
   },
 
   onLoad: function() {
+    var that = this
     if (!wx.cloud) {
       wx.redirectTo({
         url: '../chooseLib/chooseLib',
@@ -29,6 +31,7 @@ Page({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo
               })
+              that.onGetOpenid()
             }
           })
         }
@@ -54,15 +57,25 @@ Page({
       success: res => {
         console.log('[云函数] [login] user openid: ', res.result.openid)
         app.globalData.openid = res.result.openid
-        wx.navigateTo({
-          url: '../userConsole/userConsole',
-        })
+        // wx.navigateTo({
+        //   url: '../userConsole/userConsole',
+        // })
+        // if (app.globalData.openid=='o17ME5h9u-5F9GaDJ4E-uLYYW2UY'){
+        //    this.setData({
+        //      isAdmin:false
+        //    })
+        // }else{
+        //   this.setData({
+        //     isAdmin: true
+        //   })
+        // }
+      
       },
       fail: err => {
         console.error('[云函数] [login] 调用失败', err)
-        wx.navigateTo({
-          url: '../deployFunctions/deployFunctions',
-        })
+        // wx.navigateTo({
+        //   url: '../deployFunctions/deployFunctions',
+        // })
       }
     })
   },

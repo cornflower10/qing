@@ -20,7 +20,7 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "selectedColor": "#AC4049",
+    "selectedColor": "#FC0519",
     "list": [
       {
         "pagePath": "pages/main/main",
@@ -30,7 +30,7 @@
       },
       {
         "pagePath": "pages/index/index",
-        "text": "关于",
+        "text": "我的",
         "iconPath": "images/icon_my.png",
         "selectedIconPath": "images/selected-icon_my.png"
       }

@@ -45,7 +45,7 @@ Page({
   up(){
     var that = this
     var filePath = this.data.temp_images[this.data.i]
-    const cloudPath = Date.parse(new Date()).toString() + filePath + filePath.match(/\.[^.]+?$/)[0]
+    const cloudPath = Date.parse(new Date()).toString() + Math.random() + filePath.match(/\.[^.]+?$/)[0]
     wx.cloud.uploadFile({
       cloudPath,
       filePath,
@@ -62,9 +62,10 @@ Page({
           icon: 'none',
           title: '上传失败',
         })
+        wx.hideLoading()
       },
       complete: () => {
-        wx.hideLoading()
+        // wx.hideLoading()
       }
     })
   },

@@ -20,7 +20,7 @@
 height:407rpx;
 }
 .red_color{
-  color: #AC4049;
+  color: rgb(252, 5, 25);
 }
 
 

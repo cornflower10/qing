@@ -10,11 +10,28 @@
 
 .item_img{
 margin-left: 5rpx;
+margin-top: 5rpx;
 width:180rpx;
 height:180rpx;
 }
+.item_img_on{
+position: relative;
+margin-left: 5rpx;
+margin-top: 5rpx;
+width:180rpx;
+height:180rpx;
+background-color: #e4e0e0;
+opacity: 0.5;
+bottom:196rpx;
+right:0rpx;
+}
 .top{
-  margin: 16rpx 16rpx 16rpx 16rpx;
+  padding-top: 16rpx;
+  padding-bottom: 16rpx;
+ background-color: #ffffff;
+  width: 100%;
+  height: 50rpx;
+  align-items: center;
   flex-direction: row;
   display: flex;
   justify-content: space-between
@@ -22,13 +39,19 @@ height:180rpx;
 .bottom{
   position: fixed;
   bottom: 0rpx;
-  right: 16rpx
+  /* right: 16rpx */
 }
 .choose{
   position: relative;
   width: 32rpx;
   height: 32rpx;
-  bottom:68rpx;
+  bottom:258rpx;
   right:-138rpx;
   z-index: 999
+}
+.marg-right{
+  margin-right: 26rpx
+}
+.marg_left{
+  margin-left: 26rpx
 }
