@@ -6,43 +6,9 @@ Page({
    */
   data: {
     pageIndex: 1,
-    list:[{
-      dressing_id:"1",
-      url:"cloud://bill-cde1db.6269-bill-cde1db/my-image.jpeg",
-      tag:"",
-      title:"",
-      desc:"",
-     
-    },
-      {
-        dressing_id: "2",
-        url: "https://6269-bill-cde1db-1257788440.tcb.qcloud.la/WechatIMG143.jpeg?sign=a62415b81a049bce937e4e85f396827c&t=1550306812",
-        tag: "",
-        title: "",
-        desc: ""
-      },
-      {
-        dressing_id: "3",
-        url: "https://6269-bill-cde1db-1257788440.tcb.qcloud.la/WechatIMG143.jpeg?sign=a62415b81a049bce937e4e85f396827c&t=1550306812",
-        tag: "",
-        title: "",
-        desc: ""
-      },
-      {
-        dressing_id: "4",
-        url: "https://6269-bill-cde1db-1257788440.tcb.qcloud.la/WechatIMG143.jpeg?sign=a62415b81a049bce937e4e85f396827c&t=1550306812",
-        tag: "",
-        title: "",
-        desc: ""
-      },
-      {
-        dressing_id: "5",
-        url: "https://6269-bill-cde1db-1257788440.tcb.qcloud.la/WechatIMG143.jpeg?sign=a62415b81a049bce937e4e85f396827c&t=1550306812",
-        tag: "",
-        title: "",
-        desc: ""
-      }],
-      reallList:[]
+    list:[],
+      reallList:[],
+      isLoading:false
   },
 
   /**
@@ -55,6 +21,10 @@ Page({
 
 query:function(add){
   var that = this;
+  this.setData({
+    isLoading: true
+  })
+
   if(!add){
     that.setData({
       pageIndex:1
@@ -93,6 +63,14 @@ query:function(add){
           this.setData({
             reallList: tempReal
           })
+        }else{
+          if (pageIndex <= 1) {
+            that.setData({ pageIndex: 1 })
+            return
+          } else {
+            pageIndex--
+            that.setData({ pageIndex: pageIndex })
+          }
         }
       
         wx.hideLoading()
@@ -106,8 +84,18 @@ query:function(add){
         })
         wx.hideLoading()
         wx.stopPullDownRefresh()
-        pageIndex--
-        that.setData({ pageIndex:pageIndex})
+        if (pageIndex <= 1) {
+          that.setData({ pageIndex: 1 })
+          return
+        } else {
+          pageIndex--
+          that.setData({ pageIndex: pageIndex })
+        }
+      },
+      complete:()=>{
+        that.setData({
+          isLoading: false
+        })
       }
     })
 },
@@ -128,8 +116,27 @@ query:function(add){
 
   clickItem:function(e){
     var url = e.currentTarget.dataset.url
+    var index = e.currentTarget.dataset.index
+    var start = 0
+    var end = 20
+    if (index - 10==0){
+      start=0
+      end = 20
+    } else if (index - 10>0){
+      start = index-10
+      end = index+10
+     var temp = this.data.reallList.length
+      if (end > temp+1){
+        end = end - (end - temp)  
+      }
+    }else{
+      start = 0
+      end = index+(Math.abs(index-10))+10
+    }
+    console.log("satrt:"+start+"end:"+end)
+    var urls = this.data.reallList.slice(start,end)
    wx.previewImage({
-     urls: this.data.reallList,
+     urls: urls,
      current: url
    })
   },
@@ -152,6 +159,9 @@ query:function(add){
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    if(this.data.isLoading){
+      return
+    }
     this.query();
   },
 
@@ -159,6 +169,9 @@ query:function(add){
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
+    if (this.data.isLoading) {
+      return
+    }
     var pageIndex = this.data.pageIndex
     pageIndex++
     this.setData({ pageIndex: pageIndex })

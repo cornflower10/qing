@@ -8,23 +8,35 @@ Page({
     logged: false,
     takeSession: false,
     requestResult: '',
-    isAdmin:false
+    isAdmin:true,
+    text:"点击授权",
+    show:false
   },
 
   onLoad: function() {
     var that = this
-    if (!wx.cloud) {
-      wx.redirectTo({
-        url: '../chooseLib/chooseLib',
-      })
-      return
-    }
+    // if (!wx.cloud) {
+    //   // wx.redirectTo({
+    //   //   url: '../chooseLib/chooseLib',
+    //   // })
+    //   return
+    // }
 
     // 获取用户信息
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              this.setData({
+                avatarUrl: res.userInfo.avatarUrl,
+                userInfo: res.userInfo
+              })
+              that.onGetOpenid()
+            }
+          })
+        }else{
           wx.getUserInfo({
             success: res => {
               this.setData({
@@ -44,7 +56,36 @@ Page({
       this.setData({
         logged: true,
         avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
+        userInfo: e.detail.userInfo,
+        text:"",
+        show:true
+      })
+
+      wx.getSetting({
+        success: res => {
+          if (res.authSetting['scope.userInfo']) {
+            // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+            wx.getUserInfo({
+              success: res => {
+                this.setData({
+                  avatarUrl: res.userInfo.avatarUrl,
+                  userInfo: res.userInfo
+                })
+                that.onGetOpenid()
+              }
+            })
+          } else {
+            wx.getUserInfo({
+              success: res => {
+                this.setData({
+                  avatarUrl: res.userInfo.avatarUrl,
+                  userInfo: res.userInfo
+                })
+                that.onGetOpenid()
+              }
+            })
+          }
+        }
       })
     }
   },
@@ -55,20 +96,13 @@ Page({
       name: 'login',
       data: {},
       success: res => {
-        console.log('[云函数] [login] user openid: ', res.result.openid)
-        app.globalData.openid = res.result.openid
-        // wx.navigateTo({
-        //   url: '../userConsole/userConsole',
-        // })
-        // if (app.globalData.openid=='o17ME5h9u-5F9GaDJ4E-uLYYW2UY'){
-        //    this.setData({
-        //      isAdmin:false
-        //    })
-        // }else{
-        //   this.setData({
-        //     isAdmin: true
-        //   })
-        // }
+        console.log('[云函数] [login] user openid: ', res.result.show)
+        // app.globalData.openid = res.result.openid
+   
+          this.setData({
+            isAdmin: res.result.show
+          })
+        
       
       },
       fail: err => {
@@ -89,7 +123,7 @@ Page({
   doUpload: function () {
     // 选择图片
     wx.chooseImage({
-      count: 6,
+      count: 8,
       sizeType: ['compressed'],
       sourceType: ['album'],
       success: function (res) {

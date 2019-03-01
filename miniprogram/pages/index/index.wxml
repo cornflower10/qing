@@ -1,28 +1,33 @@
 <!--index.wxml-->
+    <scroll-view scroll-y bindscrolltolower="lower">
 <view class="container">
 
   <!-- 用户 openid -->
   <view class="userinfo">
-    <button 
-      open-type="getUserInfo" 
-      bindgetuserinfo="onGetUserInfo"
+    <button
       class="userinfo-avatar"
       style="background-image: url({{avatarUrl}})"
     ></button>
+     <view>
+      <button 
+      open-type="getUserInfo" 
+      bindgetuserinfo="onGetUserInfo"
+      class="auth"
+      hidden='show'
+    >{{text}}</button>
+    </view>
     <view>
       <button class="userinfo-nickname" bindtap="">{{userInfo.nickName}}</button>
     </view>
   </view>
 
 
+<view class='bg_white'>
   <!-- 上传图片 -->
   <view class="uploader_0" hidden='{{isAdmin}}'>
     <view class="uploader-text" bindtap="doUpload">
       <text>上传图片</text>
       <image class='img' src='../../images/right.png'></image>
-    </view>
-    <view class="uploader-container" wx:if="{{imgUrl}}">
-      <image class="uploader-image" src="{{imgUrl}}" mode="aspectFit" bindtap="previewImg"></image>
     </view>
   </view>
  <view class='line'></view>
@@ -31,6 +36,7 @@
       <text>图片管理</text>
       <image class='img' src='../../images/right.png'></image>
     </navigator>
+  </view>
   </view>
   <!-- 操作数据库 -->
   <!-- <view class="uploader">
@@ -47,3 +53,4 @@
   </view> -->
 
 </view>
+</scroll-view>

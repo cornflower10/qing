@@ -1,4 +1,4 @@
-    <view class='top font_30'>
+    <view class='top font_30 top_flex'>
     <view  class='marg_left' bindtap='cancel' >{{!isShow?'取消':''}}</view>
      <view class='red_color marg-right' bindtap='choose'>{{choosed}}</view>
     </view>
@@ -9,9 +9,9 @@
         <view wx:for="{{list}}" class='item' bindtap='clickItem' data-url='{{item.url}}' wx:key='' data-id='{{index}}'>
            
            <view class='item_img'>
-          <image class='item_img' src='{{item.url}}' mode="aspectFill"></image>
+          <image class='item_img' src='{{item.url}}' mode="aspectFill"  lazy-load='true'></image>
           <view class='item_img_on' hidden='{{item.hidden}}'></view>
-           <image class='choose' src='../../images/choose.png' hidden='{{item.hidden}}'></image>
+           <image class='choose' src='../../images/choose.png' hidden='{{item.hidden}}' ></image>
            </view>
         </view>
       </view>

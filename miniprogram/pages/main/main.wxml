@@ -1,9 +1,9 @@
     <scroll-view scroll-y bindscrolltolower="lower">
     
     <view class='item_row'>
-        <view wx:for="{{list}}" class='item' bindtap='clickItem' data-url='{{item.url}}' wx:key=''>
+        <view wx:for="{{list}}" class='item' bindtap='clickItem' data-url='{{item.url}}' data-index='{{index}}' wx:key=''>
            
-          <image class='item_img' src='{{item.url}}' mode="aspectFill"></image>
+          <image class='item_img' src='{{item.url}}' mode="aspectFill" lazy-load='true'></image>
 
         </view>
       </view>

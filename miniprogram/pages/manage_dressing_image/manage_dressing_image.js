@@ -12,6 +12,7 @@ Page({
     id: [],
     deleteCount:0,
     pageIndex:1,
+    isLoading:false
 
   },
 
@@ -22,9 +23,17 @@ Page({
     this.query()
   },
 
-  query: function() {
+  query: function(add) {
     // 调用云函数
+    var that = this
+    that.setData({
+      isLoading: true
+    })
+  
     var pageIndex = this.data.pageIndex
+    if(!add){
+      this.setData({pageIndex:1})
+    }
     wx.showLoading({
       icon: 'none',
       title: '加载中',
@@ -33,25 +42,49 @@ Page({
       name: 'mange_photo',
       data: { pageIndex: pageIndex},
       success: res => {
-        console.log('[云函数] result: ', res.result.data)
-        // this.setData({
-        //   list: res.result.data
-        // })
-        var temp = res.result.data
-        if (temp != undefined && temp.length != 0) {
-          var tempReal = []
-          for (var i = 0; i < temp.length; i++) {
-            tempReal[i] = temp[i].url
-            temp[i].hidden = true
+        var listResult = res.result.data
+        console.log('[云函数] result: ', listResult )
+        if (add) {
+          console.log('加载更多' + pageIndex)
+          var listTemp = that.data.list
+          var realTempList = that.data.reallList
+        
+          if (listResult != undefined && listResult.length != 0) {
+            var tempReal = []
+            for (var i = 0; i < listResult.length; i++) {
+              tempReal[i] = listResult[i].url
+              listResult[i].hidden = true
+            }
+            this.setData({
+              reallList: realTempList.concat(tempReal),
+              list: listTemp.concat(listResult)
+            })
+          }else{
+            if (pageIndex <= 1) {
+              that.setData({ pageIndex: 1 })
+              return
+            } else {
+              pageIndex--
+              that.setData({ pageIndex: pageIndex })
+            }
           }
-          this.setData({
-            reallList: tempReal,
-            list: temp
-          })
+        } else {
+    
+          if (listResult != undefined && listResult.length != 0) {
+            var tempReal = []
+            for (var i = 0; i < listResult.length; i++) {
+              tempReal[i] = listResult[i].url
+              listResult[i].hidden = true
+            }
+            this.setData({
+              reallList: tempReal,
+              list: listResult
+            })
+          }
         }
 
         wx.hideLoading()
-        wx.stopPullDownRefresh()
+    
       },
       fail: err => {
         console.error('[云函数] 调用失败', err)
@@ -61,7 +94,21 @@ Page({
         })
         wx.hideLoading()
         wx.stopPullDownRefresh()
+     
+        if(pageIndex<=1){
+          that.setData({pageIndex:1})
+        return
+        }else{
+          pageIndex--
+          that.setData({ pageIndex: pageIndex })
+        }
+      },
+      complete:()=>{
+        that.setData({
+          isLoading:false
+        })
       }
+      
     })
   },
 
@@ -103,8 +150,28 @@ Page({
     } else {
       this.resetData()
       var url = this.data.list[index].url
+
+      var start = 0
+      var end = 40
+      if (index - 20 == 0) {
+        start = 0
+        end = 40
+      } else if (index - 20 > 0) {
+        start = index - 20
+        end = index + 20
+        var temp = this.data.reallList.length
+        if (end > temp + 1) {
+          end = end - (end - temp)
+        }
+      } else {
+        start = 0
+        end = index + (Math.abs(index - 20)) + 20
+      }
+      console.log("satrt:" + start + "end:" + end)
+      var urls = this.data.reallList.slice(start, end)
+
       wx.previewImage({
-        urls: this.data.reallList,
+        urls: urls,
         current: url
       })
     }
@@ -163,6 +230,10 @@ Page({
            that.delete()
         }else{
           wx.hideLoading()
+          wx.showToast({
+            icon: 'none',
+            title: '删除成功',
+          })
           that.query()
         }
         // wx.stopPullDownRefresh()
@@ -226,7 +297,13 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-
+    if(this.data.isLoading){
+      return
+    }
+    var pageIndex  = this.data.pageIndex;
+    pageIndex++
+    this.setData({pageIndex:pageIndex})
+    this.query(true)
   },
 
   /**
